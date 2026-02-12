@@ -30,7 +30,10 @@ fun main() {
 
     // Usando o Gson para preencher o objeto JOGO
     val gson = Gson()
-    val meuJogo = gson.fromJson(json, InfoJogo::class.java)
+    // Alterado o construtor do InfoJogo para InfoApiShark para poder
+    // pegar os dados dentro do info e criar o Jogo propriamente dito
+    val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
+//    println(meuJogo)
+    val meuJogo = Jogo(meuInfoJogo.info.title, meuInfoJogo.info.thumb)
     println(meuJogo)
-
 }
