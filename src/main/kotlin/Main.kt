@@ -6,19 +6,26 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
+import java.util.Scanner
 
 
 fun main() {
+    val leitura = Scanner(System.`in`)
+    println("Escreva o código de jogo: ")
+    val busca = leitura.nextLine()
+
+    val endereco = "https://www.cheapshark.com/api/1.0/games?id=$busca"
+
     val client: HttpClient = HttpClient.newHttpClient()
     val request = HttpRequest.newBuilder()
-        .uri(URI.create("https://www.cheapshark.com/api/1.0/games?id=612"))
+        .uri(URI.create(endereco))
         .build()
 
     val response: HttpResponse<String> = client
         .send(request, BodyHandlers.ofString())
 
     val json = response.body()
-    println(json)
+    //println(json)
 
 //    Primeiro Teste
 //    val meuJogo = Jogo(
