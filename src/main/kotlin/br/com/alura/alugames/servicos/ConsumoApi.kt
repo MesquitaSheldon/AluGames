@@ -9,7 +9,7 @@ import java.net.http.HttpResponse
 import java.net.http.HttpResponse.BodyHandlers
 
 class ConsumoApi {
-    fun buscaJogo(id: String): InfoJogo {
+    fun buscaJogo(id: String): InfoJogo? {
         val endereco = "https://www.cheapshark.com/api/1.0/games?id=$id"
 
         val client: HttpClient = HttpClient.newHttpClient()
@@ -24,9 +24,10 @@ class ConsumoApi {
         val json = response.body()
 
         val gson = Gson()
-
-        val meuInfoJogo = gson.fromJson(json, InfoJogo::class.java)
-
+        var meuInfoJogo:InfoJogo? = null
+        val resposta = runCatching { meuInfoJogo = gson.fromJson(json, InfoJogo::class.java) }
+         //= gson.fromJson(json, InfoJogo::class.java)
+        resposta.onFailure { println("Jogo não encontrado. Tente outro ID.") }
         return meuInfoJogo
     }
 

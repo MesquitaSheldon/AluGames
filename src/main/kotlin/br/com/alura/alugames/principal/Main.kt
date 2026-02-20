@@ -1,9 +1,9 @@
 package org.example.br.com.alura.alugames.principal
 
+import org.example.br.com.alura.alugames.modelo.InfoJogo
 import org.example.br.com.alura.alugames.modelo.Jogo
 import org.example.br.com.alura.alugames.servicos.ConsumoApi
 import java.util.*
-
 
 fun main() {
     val leitura = Scanner(System.`in`)
@@ -11,10 +11,9 @@ fun main() {
     val busca = leitura.nextLine()
 
     val apiBusca = ConsumoApi()
-    val informacaoJogo = apiBusca.buscaJogo(busca)
+    val informacaoJogo = apiBusca.buscaJogo(busca) ?: return
 
     var meuJogo: Jogo? = null
-
     val resultado = runCatching {
         meuJogo = Jogo(
             informacaoJogo.info.title,
@@ -27,7 +26,8 @@ fun main() {
     }
 
     resultado.onSuccess {
-        println("Deseja inserir uma descrição personalizada para '${meuJogo?.titulo}'? S/N")
+        println("Deseja inserir uma descrição personalizada para" +
+                "'${meuJogo?.titulo}'? S/N")
         val opcao = leitura.nextLine()
         if(opcao.equals("S", true)) {
             println("Insira a descrição desejada:")
